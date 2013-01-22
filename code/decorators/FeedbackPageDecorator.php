@@ -6,18 +6,21 @@ class FeedbackPageDecorator extends Extension{
 		
 		if(Feedback::canSee()){
 			Requirements::css('feedback/css/sidefeedback.css');
-			Requirements::javascript('feedback/javascript/jquery.popupWindow.js');
+			Requirements::css("feedback/javascript/jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.css");
+			Requirements::javascript('feedback/javascript/jquery.fancybox-1.3.4/fancybox/jquery.fancybox-1.3.4.pack.js');
 				
 			$script = <<<JS
 					 (function($){
 					 $(document).ready(function() {
-						$('#FeedbackSideLink a.feedbacklink').popupWindow({
-								height:500,
-								width:350,
-								centerBrowser:1,
-								windowName: "Give Feedback",
-							  windowURL: "FeedbackPage/window?current="+window.location
-						});
+						$('#FeedbackSideLink a.feedbacklink').fancybox({
+             	'transitionIn'		: 'none',
+             	'transitionOut'		: 'none',
+             	'autoScale'     	: false,
+             	'type'				: 'iframe',
+             	'width'				: 500,
+             	'height'			: 420,
+             	'scrolling'   		: 'no'
+             });
 			  		});
 					})(jQuery);
 JS;
