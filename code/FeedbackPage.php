@@ -30,7 +30,7 @@ class FeedbackPage extends Controller{
 			'Other' => 'Other - thoughts about the site'
 		);
 		
-		$fields = new FieldSet(
+		$fields = new FieldList(
 			new LiteralField('SignInMsg','<p>*Please sign in if you are a site member.</p>'),
 			new TextField('Name'),
 			new EmailField('Email','E-Mail'),
@@ -39,21 +39,24 @@ class FeedbackPage extends Controller{
 			new TextareaField('Message')
 		);
 		
-		if($member = Controller::CurrentMember()){
+		if($member = Member::currentUser()){
 			$fields->removeByName('Name');
 			$fields->removeByName('Email');
 			$fields->removeByName('SignInMsg');
 			$fields->insertBefore(new LiteralField('Blurb',"<p>Feedback from ".$member->getName()."</p>"),'OverallRating');
 		}
 		//Debug::show(Director::urlParams());
-		if($id = Director::urlParam('ID')){
+		
+
+    
+		if($id = $this->request->getVar('ID')){
 			$fields->push(new HiddenField('PageID',"PageID",$id));
 		}
 		if(isset($_GET['currenturl'])){
 			$fields->push(new HiddenField('CurrentURL','Current',$_GET['currenturl']));			
 		}
 		
-		$actions = new Fieldset(
+		$actions = new FieldList(
 			new FormAction('submit','Send')
 		);
 		
@@ -65,7 +68,7 @@ class FeedbackPage extends Controller{
 	function submit($data,$form){
 		
 		$feedback = new Feedback();
-		if($member = Controller::CurrentMember()){
+		if($member = Member::currentUser()){
 			$feedback->SubmitterID = $member->ID;
 		}
 		$form->saveInto($feedback);

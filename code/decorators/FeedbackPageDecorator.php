@@ -15,8 +15,8 @@ class FeedbackPageDecorator extends Extension{
 								height:500,
 								width:350,
 								centerBrowser:1,
-								windowName: "Give Feedback"
-								//windowURL: "FeedbackPage/window?current="+window.location
+								windowName: "Give Feedback",
+							  windowURL: "FeedbackPage/window?current="+window.location
 						});
 			  		});
 					})(jQuery);
