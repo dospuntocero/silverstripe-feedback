@@ -82,9 +82,15 @@ class FeedbackPage extends Controller{
 		
 		if(self::$emailfeedback) $this->emailFeedback($feedback);
 		$this->window();
-		return "<p>Thank you. Your feedback has been recorded.</p>";
+    $this->redirect("FeedbackPage/window/?success=1");
+    
+    // $this->redirectBack();
+    // return "<p>Thank you. Your feedback has been recorded.</p>";
 	}
-	
+	function Success(){
+    return isset($_REQUEST['success']) && $_REQUEST['success'] == "1";
+  }
+  
 	function emailFeedback($feedback){
 		$to = (self::$emailto && Email::validEmailAddress(self::$emailto)) ? self::$emailto : Email::getAdminEmail();		
 		$email = new Email(Email::getAdminEmail(),$to,'Website Feedback',$feedback->renderWith('FeedbackEmail'));
